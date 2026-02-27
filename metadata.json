@@ -1,0 +1,5 @@
+{
+  "name": "TerraPulse Crop Intelligence",
+  "description": "Real-time climate-tech monitoring dashboard for agricultural analytics using NASA-Sentinel datasets.",
+  "requestFramePermissions": []
+}
