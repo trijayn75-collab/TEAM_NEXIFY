@@ -1,5 +1,8 @@
 import { motion } from "motion/react";
 import { 
+  Lock,
+  Mail,
+  Globe,
   LayoutDashboard, 
   Map, 
   BarChart3, 
@@ -22,6 +25,7 @@ import {
   Wind,
   Satellite,
   MapPin,
+  User,
   X
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
@@ -39,7 +43,7 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // --- Types ---
-type Screen = "home" | "dashboard" | "mapping" | "reports" | "alerts" | "config" | "calendar";
+type Screen = "home" | "login" | "dashboard" | "mapping" | "reports" | "alerts" | "config" | "calendar";
 
 interface WeatherData {
   temp: number;
@@ -167,6 +171,109 @@ const ALERTS: AlertData[] = [
 
 // --- Components ---
 
+const Login = ({ onLogin }: { onLogin: () => void }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen flex items-center justify-center p-4 relative"
+    >
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" 
+          alt="Background"
+          className="w-full h-full object-cover opacity-20"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-transparent to-[#0a0a0a]/80" />
+      </div>
+
+      <div className="w-full max-w-md glass p-10 rounded-[2.5rem] border-white/10 shadow-2xl relative overflow-hidden z-10">
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-accent-blue/20 rounded-full blur-3xl" />
+        
+        <div className="relative z-10 space-y-8">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/30">
+              <Sprout className="text-primary w-8 h-8" />
+            </div>
+            <h2 className="text-3xl font-bold text-white font-display">Welcome Back</h2>
+            <p className="text-slate-400 text-sm">Access your agricultural intelligence dashboard</p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <input 
+                  type="email" 
+                  placeholder="name@company.com"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:border-primary outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <input 
+                  type="password" 
+                  placeholder="••••••••"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:border-primary outline-none transition-all"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-xs">
+            <label className="flex items-center gap-2 text-slate-400 cursor-pointer group">
+              <input type="checkbox" className="w-4 h-4 rounded border-white/10 bg-white/5 accent-primary" />
+              <span className="group-hover:text-white transition-colors">Remember me</span>
+            </label>
+            <a href="#" className="text-primary font-bold hover:underline">Forgot Password?</a>
+          </div>
+
+          <button 
+            onClick={onLogin}
+            className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-2xl font-bold transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/5"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-[#0a0a0a] px-4 text-slate-500 font-bold tracking-widest">Or continue with</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={onLogin}
+            className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold border border-white/10 transition-all flex items-center justify-center gap-3"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+              <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+            Google
+          </button>
+
+          <p className="text-center text-slate-500 text-xs">
+            Don't have an account? <button onClick={onLogin} className="text-white font-bold hover:underline">Create Account</button>
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const Gauge = ({ value, color = "#8B5CF6" }: { value: number, color?: string }) => {
   const radius = 70;
   const circumference = 2 * Math.PI * radius;
@@ -206,7 +313,7 @@ const Gauge = ({ value, color = "#8B5CF6" }: { value: number, color?: string }) 
   );
 };
 
-const Home = ({ onStart, setScreen }: { onStart: () => void, setScreen: (s: Screen) => void }) => {
+const Home = ({ onStart }: { onStart: () => void }) => {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -265,7 +372,7 @@ const Home = ({ onStart, setScreen }: { onStart: () => void, setScreen: (s: Scre
           transition={{ delay: 0.6 }}
           className="pt-8"
         >
-          <div className="relative group cursor-pointer" onClick={onStart}>
+          <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent-blue rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative glass rounded-3xl overflow-hidden aspect-video w-full max-w-2xl mx-auto border border-white/10">
               <img 
@@ -306,7 +413,6 @@ const Sidebar = ({ currentScreen, setScreen }: { currentScreen: Screen, setScree
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "mapping", label: "Field Mapping", icon: Map },
     { id: "reports", label: "CSI Reports", icon: BarChart3 },
-    { id: "calendar", label: "Calendar", icon: Calendar },
     { id: "alerts", label: "Active Alerts", icon: Bell },
     { id: "config", label: "Configuration", icon: Settings },
   ];
@@ -342,10 +448,10 @@ const Sidebar = ({ currentScreen, setScreen }: { currentScreen: Screen, setScree
       <div className="p-4 border-t border-white/5">
         <button 
           onClick={() => setScreen("home")}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-accent-red hover:bg-accent-red/5 transition-all"
         >
           <ChevronRight className="w-5 h-5 rotate-180" />
-          Back to Home
+          Sign Out
         </button>
       </div>
 
@@ -680,10 +786,20 @@ const FieldMapping = ({ onBack, onGenerateReport }: { onBack: () => void, onGene
   );
 };
 
-const CSIReports = () => {
+const CSIReports = ({ zones }: { zones: ZoneData[] }) => {
   const [hoveredMonth, setHoveredMonth] = useState<number | null>(null);
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const data = [30, 45, 60, 40, 80, 90, 70, 50, 40, 60, 85, 95];
+  
+  // Calculate dynamic data based on zones
+  const avgScore = zones.length > 0 
+    ? (zones.reduce((acc, z) => acc + z.score, 0) / zones.length).toFixed(1)
+    : "0.0";
+    
+  const highStressMonth = "December"; // Mock for now but could be derived
+  
+  // Mock monthly data that slightly shifts based on avg score
+  const baseData = [30, 45, 60, 40, 80, 90, 70, 50, 40, 60, 85, 95];
+  const dynamicData = baseData.map(val => Math.min(100, Math.max(0, val + (parseFloat(avgScore) - 70) / 2)));
 
   return (
     <motion.div 
@@ -693,7 +809,7 @@ const CSIReports = () => {
     >
       <header>
         <h1 className="text-3xl font-bold text-white font-display">CSI Reports</h1>
-        <p className="text-slate-400 mt-1">Detailed historical analysis of Crop Stress Index metrics.</p>
+        <p className="text-slate-400 mt-1">Detailed historical analysis based on {zones.length} monitored zones.</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -706,12 +822,12 @@ const CSIReports = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-primary font-bold text-sm"
               >
-                {months[hoveredMonth]}: {data[hoveredMonth]}% Stress
+                {months[hoveredMonth]}: {dynamicData[hoveredMonth].toFixed(0)}% Stress
               </motion.div>
             )}
           </div>
           <div className="h-80 flex items-end justify-between gap-4">
-            {data.map((h, i) => (
+            {dynamicData.map((h, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
                 <motion.div 
                   initial={{ height: 0 }}
@@ -736,10 +852,10 @@ const CSIReports = () => {
           <h4 className="text-lg font-bold text-white">Report Summary</h4>
           <div className="space-y-4">
             {[
-              { label: "Highest Stress Month", value: "December", color: "text-accent-red" },
-              { label: "Avg. Annual Score", value: "68.4", color: "text-white" },
+              { label: "Highest Stress Month", value: highStressMonth, color: "text-accent-red" },
+              { label: "Avg. Current Score", value: avgScore, color: "text-white" },
               { label: "Recovery Rate", value: "+12.5%", color: "text-accent-green" },
-              { label: "Data Points", value: "14,202", color: "text-slate-400" },
+              { label: "Total Zones", value: zones.length.toString(), color: "text-slate-400" },
             ].map((item, i) => (
               <div key={i} className="flex justify-between items-center py-3 border-b border-white/5">
                 <span className="text-sm text-slate-500">{item.label}</span>
@@ -769,6 +885,27 @@ const Configuration = () => {
       </header>
 
       <div className="space-y-6">
+        {/* Profile Section */}
+        <div className="glass p-8 rounded-3xl space-y-6 border-primary/20">
+          <h4 className="text-lg font-bold text-white flex items-center gap-2">
+            <User className="w-5 h-5 text-primary" />
+            User Profile
+          </h4>
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center">
+              <User className="w-10 h-10 text-primary" />
+            </div>
+            <div className="space-y-1">
+              <h5 className="text-xl font-bold text-white">John Doe</h5>
+              <p className="text-sm text-slate-400">Agricultural Intelligence Analyst</p>
+              <p className="text-xs text-slate-500">john.doe@terrapulse.ai</p>
+            </div>
+            <button className="ml-auto px-4 py-2 glass rounded-lg text-xs font-bold text-white hover:bg-white/10 transition-colors">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
         <div className="glass p-8 rounded-3xl space-y-8">
           <section className="space-y-6">
             <h4 className="text-lg font-bold text-white flex items-center gap-2">
@@ -829,9 +966,10 @@ const Configuration = () => {
   );
 };
 
-const CalendarScreen = () => {
+const CalendarScreen = ({ zones }: { zones: ZoneData[] }) => {
   const [currentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedZone, setSelectedZone] = useState<ZoneData | null>(null);
   
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
@@ -841,7 +979,7 @@ const CalendarScreen = () => {
 
   // Mock weather data for days
   const getDayWeather = (day: number) => {
-    const seed = day + currentDate.getMonth();
+    const seed = day + currentDate.getMonth() + (selectedZone ? selectedZone.score : 0);
     return {
       temp: 22 + (seed % 10),
       humidity: 40 + (seed % 30),
@@ -863,145 +1001,165 @@ const CalendarScreen = () => {
           <h1 className="text-3xl font-bold text-white font-display">Agricultural Calendar</h1>
           <p className="text-slate-400 mt-1">Plan your harvest and irrigation cycles with precision.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-4">
+          <div className="relative group">
+            <button 
+              className="px-4 py-2 glass rounded-lg text-sm font-medium text-white hover:bg-white/10 flex items-center gap-2"
+            >
+              <Layers className="w-4 h-4 text-accent-blue" />
+              {selectedZone ? selectedZone.name : "Choose a Zone"}
+            </button>
+            <div className="absolute top-full right-0 mt-2 w-56 glass rounded-xl p-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all z-50 max-h-64 overflow-y-auto">
+              {zones.map(zone => (
+                <button 
+                  key={zone.id}
+                  onClick={() => setSelectedZone(zone)}
+                  className="w-full text-left px-3 py-2 text-xs text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex justify-between items-center"
+                >
+                  <span>{zone.name}</span>
+                  <span className="text-[8px] font-bold text-primary">{zone.score} CSI</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <button 
             onClick={() => setSelectedDay(new Date().getDate())}
             className="px-4 py-2 glass rounded-lg text-sm font-medium text-white hover:bg-white/10"
           >
             Today
           </button>
-          <div className="flex glass rounded-lg overflow-hidden">
-            <button className="p-2 hover:bg-white/10 text-white"><ChevronRight className="w-4 h-4 rotate-180" /></button>
-            <button className="p-2 hover:bg-white/10 text-white"><ChevronRight className="w-4 h-4" /></button>
-          </div>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-3 glass rounded-3xl p-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-xl font-bold text-white">
-              {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-7 gap-2 mb-4">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest py-2">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-2">
-            {blanks.map(i => <div key={`blank-${i}`} className="aspect-square" />)}
-            {days.map(day => {
-              const hasEvent = [12, 15, 22].includes(day);
-              const isToday = day === currentDate.getDate();
-              const isSelected = selectedDay === day;
-              return (
-                <div 
-                  key={day} 
-                  onClick={() => setSelectedDay(day)}
-                  className={`aspect-square glass rounded-2xl p-3 relative group cursor-pointer transition-all ${
-                    isSelected ? 'border-primary bg-primary/20 ring-2 ring-primary/50' : 
-                    isToday ? 'border-primary/50 bg-primary/5' : 'border-white/5 hover:bg-white/5'
-                  }`}
-                >
-                  <span className={`text-sm font-bold ${isSelected || isToday ? 'text-primary' : 'text-slate-400'}`}>{day}</span>
-                  {hasEvent && (
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent-red" />
-                  )}
-                  {day === 15 && (
-                    <div className="hidden group-hover:block absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 w-48 glass p-3 rounded-xl text-[10px] text-white">
-                      <p className="font-bold text-accent-red mb-1">Critical Irrigation</p>
-                      <p className="text-slate-400">North Plateau • 04:00 AM</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          {selectedDay && selectedWeather && (
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              key={selectedDay}
-              className="glass p-6 rounded-3xl border-primary/30 bg-primary/5"
-            >
-              <h4 className="font-bold text-white mb-4 flex justify-between items-center">
-                <span>Day Details</span>
-                <span className="text-xs text-primary">{selectedDay} {currentDate.toLocaleString('default', { month: 'short' })}</span>
-              </h4>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <Thermometer className="w-4 h-4 text-accent-red" />
-                    Temp
-                  </div>
-                  <span className="text-sm font-bold text-white">{selectedWeather.temp}°C</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <Droplets className="w-4 h-4 text-accent-blue" />
-                    Humidity
-                  </div>
-                  <span className="text-sm font-bold text-white">{selectedWeather.humidity}%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <Wind className="w-4 h-4 text-slate-400" />
-                    Weather
-                  </div>
-                  <span className="text-sm font-bold text-white">{selectedWeather.condition}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <Activity className="w-4 h-4 text-accent-green" />
-                    Rain Chance
-                  </div>
-                  <span className="text-sm font-bold text-white">{selectedWeather.rainChance}%</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          <div className="glass p-6 rounded-3xl">
-            <h4 className="font-bold text-white mb-4">Upcoming Tasks</h4>
-            <div className="space-y-4">
-              {[
-                { time: "04:00 AM", task: "Irrigation Cycle", zone: "Zone Alpha", color: "bg-accent-blue" },
-                { time: "09:30 AM", task: "Soil Sample", zone: "Zone Delta", color: "bg-accent-green" },
-                { time: "02:00 PM", task: "Drone Survey", zone: "East Ridge", color: "bg-primary" },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4 items-start">
-                  <div className={`w-1 h-10 rounded-full ${item.color}`} />
-                  <div>
-                    <p className="text-xs font-bold text-white">{item.task}</p>
-                    <p className="text-[10px] text-slate-500">{item.time} • {item.zone}</p>
-                  </div>
+      {selectedZone ? (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-3 glass rounded-3xl p-8">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-xl font-bold text-white">
+                {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-7 gap-2 mb-4">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                <div key={day} className="text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest py-2">
+                  {day}
                 </div>
               ))}
             </div>
+
+            <div className="grid grid-cols-7 gap-2">
+              {blanks.map(i => <div key={`blank-${i}`} className="aspect-square" />)}
+              {days.map(day => {
+                const hasEvent = [12, 15, 22].includes(day);
+                const isToday = day === currentDate.getDate();
+                const isSelected = selectedDay === day;
+                return (
+                  <div 
+                    key={day} 
+                    onClick={() => setSelectedDay(day)}
+                    className={`aspect-square glass rounded-2xl p-3 relative group cursor-pointer transition-all ${
+                      isSelected ? 'border-primary bg-primary/20 ring-2 ring-primary/50' : 
+                      isToday ? 'border-primary/50 bg-primary/5' : 'border-white/5 hover:bg-white/5'
+                    }`}
+                  >
+                    <span className={`text-sm font-bold ${isSelected || isToday ? 'text-primary' : 'text-slate-400'}`}>{day}</span>
+                    {hasEvent && (
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent-red" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          
-          <div className="glass p-6 rounded-3xl bg-gradient-to-br from-primary/20 to-accent-blue/20 border-primary/20">
-            <h4 className="font-bold text-white mb-2">Harvest Forecast</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Based on current CSI trends, optimal harvest for Chardonnay blocks is predicted in <span className="text-white font-bold">18 days</span>.
-            </p>
+
+          <div className="space-y-6">
+            {selectedDay && selectedWeather && (
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                key={selectedDay}
+                className="glass p-6 rounded-3xl border-primary/30 bg-primary/5"
+              >
+                <h4 className="font-bold text-white mb-4 flex justify-between items-center">
+                  <span>Day Details</span>
+                  <span className="text-xs text-primary">{selectedDay} {currentDate.toLocaleString('default', { month: 'short' })}</span>
+                </h4>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs">
+                      <Thermometer className="w-4 h-4 text-accent-red" />
+                      Temp
+                    </div>
+                    <span className="text-sm font-bold text-white">{selectedWeather.temp}°C</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs">
+                      <Droplets className="w-4 h-4 text-accent-blue" />
+                      Humidity
+                    </div>
+                    <span className="text-sm font-bold text-white">{selectedWeather.humidity}%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs">
+                      <Wind className="w-4 h-4 text-slate-400" />
+                      Weather
+                    </div>
+                    <span className="text-sm font-bold text-white">{selectedWeather.condition}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs">
+                      <Activity className="w-4 h-4 text-accent-green" />
+                      Rain Chance
+                    </div>
+                    <span className="text-sm font-bold text-white">{selectedWeather.rainChance}%</span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            <div className="glass p-6 rounded-3xl">
+              <h4 className="font-bold text-white mb-4">Upcoming Tasks</h4>
+              <div className="space-y-4">
+                {[
+                  { time: "04:00 AM", task: "Irrigation Cycle", zone: selectedZone?.name || "Zone Alpha", color: "bg-accent-blue" },
+                  { time: "09:30 AM", task: "Soil Sample", zone: selectedZone?.name || "Zone Delta", color: "bg-accent-green" },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className={`w-1 h-10 rounded-full ${item.color}`} />
+                    <div>
+                      <p className="text-xs font-bold text-white">{item.task}</p>
+                      <p className="text-[10px] text-slate-500">{item.time} • {item.zone}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="glass rounded-[3rem] p-20 text-center space-y-6 border-white/5">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-primary/20">
+            <Layers className="w-12 h-12 text-primary animate-pulse" />
+          </div>
+          <h2 className="text-3xl font-bold text-white font-display">Select a zone to view calendar</h2>
+          <p className="text-slate-500 max-w-md mx-auto">Choose a specific zone from the options above to load agricultural intelligence data.</p>
+        </div>
+      )}
     </motion.div>
   );
 };
 
-const Dashboard = ({ zones, onZoneClick, onDeleteZone }: { zones: ZoneData[], onZoneClick: (zone: ZoneData) => void, onDeleteZone: (id: string) => void }) => {
+const Dashboard = ({ zones, onZoneClick, onDeleteZone, onUpdateZoneName }: { 
+  zones: ZoneData[], 
+  onZoneClick: (zone: ZoneData) => void, 
+  onDeleteZone: (id: string) => void,
+  onUpdateZoneName: (id: string, name: string) => void
+}) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [editingZoneId, setEditingZoneId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dateRange, setDateRange] = useState({
     start: "2026-08-12",
@@ -1179,12 +1337,45 @@ const Dashboard = ({ zones, onZoneClick, onDeleteZone }: { zones: ZoneData[], on
             </div>
 
             <div onClick={() => onZoneClick(zone)}>
-              <div className="flex justify-between items-start mb-8">
-                <div>
-                  <h4 className="text-xl font-bold font-display text-white group-hover:text-primary transition-colors">{zone.name}</h4>
+              <div className="flex justify-between items-start mb-8 pr-20">
+                <div className="flex-1">
+                  {editingZoneId === zone.id ? (
+                    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                      <input 
+                        type="text" 
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="bg-white/5 border border-primary/30 rounded-lg px-3 py-1 text-white font-bold outline-none w-full"
+                        autoFocus
+                      />
+                      <button 
+                        onClick={() => {
+                          onUpdateZoneName(zone.id, editName);
+                          setEditingZoneId(null);
+                        }}
+                        className="p-1 text-accent-green hover:bg-accent-green/10 rounded"
+                      >
+                        <CheckCircle2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 group/title">
+                      <h4 className="text-xl font-bold font-display text-white group-hover:text-primary transition-colors">{zone.name}</h4>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingZoneId(zone.id);
+                          setEditName(zone.name);
+                        }}
+                        className="opacity-0 group-hover/title:opacity-100 p-1 text-slate-500 hover:text-white transition-all"
+                      >
+                        <Settings className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
                   <p className="text-slate-400 text-sm">Zone ID: {zone.id}</p>
                 </div>
-                <span className={`px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-widest border ${
+                <span className={`px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-widest border whitespace-nowrap ${
                   zone.status === 'High Risk' ? 'bg-accent-red/20 text-accent-red border-accent-red/30' :
                   zone.status === 'Healthy' ? 'bg-accent-green/20 text-accent-green border-accent-green/30' :
                   'bg-amber-500/20 text-amber-500 border-amber-500/30'
@@ -1467,26 +1658,32 @@ export default function App() {
     if (selectedZone?.id === id) setSelectedZone(null);
   };
 
+  const updateZoneName = (id: string, newName: string) => {
+    setZones(prev => prev.map(z => z.id === id ? { ...z, name: newName } : z));
+  };
+
   return (
     <div className="flex h-screen overflow-hidden gradient-bg">
-      {screen !== "home" && <Sidebar currentScreen={screen} setScreen={setScreen} />}
+      {screen !== "home" && screen !== "login" && <Sidebar currentScreen={screen} setScreen={setScreen} />}
       
       <main className="flex-1 overflow-y-auto relative">
         {/* Background Glows (only for app screens) */}
-        {screen !== "home" && (
+        {screen !== "home" && screen !== "login" && (
           <>
             <div className="fixed top-[-10%] left-[30%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="fixed bottom-[-10%] right-[0%] w-[500px] h-[500px] bg-accent-blue/10 rounded-full blur-[100px] pointer-events-none" />
           </>
         )}
 
-        <div className={screen === "home" ? "" : "max-w-7xl mx-auto p-8"}>
-          {screen === "home" && <Home onStart={() => setScreen("dashboard")} setScreen={setScreen} />}
+        <div className={screen === "home" || screen === "login" ? "" : "max-w-7xl mx-auto p-8"}>
+          {screen === "home" && <Home onStart={() => setScreen("login")} />}
+          {screen === "login" && <Login onLogin={() => setScreen("dashboard")} />}
           {screen === "dashboard" && (
             <Dashboard 
               zones={zones} 
               onZoneClick={(zone) => setSelectedZone(zone)} 
               onDeleteZone={deleteZone}
+              onUpdateZoneName={updateZoneName}
             />
           )}
           {screen === "mapping" && (
@@ -1498,8 +1695,8 @@ export default function App() {
               }}
             />
           )}
-          {screen === "reports" && <CSIReports />}
-          {screen === "calendar" && <CalendarScreen />}
+          {screen === "reports" && <CSIReports zones={zones} />}
+          {screen === "calendar" && <CalendarScreen zones={zones} />}
           {screen === "alerts" && <Alerts />}
           {screen === "config" && <Configuration />}
         </div>
